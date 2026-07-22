@@ -1,1 +1,12 @@
+#raw datasets are too big for git
 data/raw/
+
+#macOS
+.DS_Store
+
+#VS Code
+.vscode/
+
+#Python
+__pycache__/
+.ipynb_checkpoints/
