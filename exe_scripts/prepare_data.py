@@ -1,0 +1,26 @@
+#Executable code for 
+#   importing in data (raw)
+#   preprocessing data (clean)
+#   feature creation (feat)
+#   outputting data for model training
+
+#libraries
+
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
+project_root = Path.cwd().parent
+
+#import source code
+from source_code.data_io import load_raw_train_data, load_raw_test_data
+from source_code.preprocessing import convert_numeric, convert_datetime
+
+#dtype columns to convert
+list_col_num = ['vendor_id', 'passenger_count', 'pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude',
+                'trip_duration']
+list_col_date = ['pickup_datetime', 'dropoff_datetime']
+
+#import in train and test
+
+#convert dtypes
