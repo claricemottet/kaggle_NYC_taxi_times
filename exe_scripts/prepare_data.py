@@ -9,8 +9,12 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import sys
 
-project_root = Path.cwd().parent
+#create a variable that gives the overall folder location
+project_root = Path(__file__).resolve().parent.parent
+#establish it as somewhere the executable can access other folders
+sys.path.append(str(project_root))
 
 #import source code
 from source_code.data_io import load_raw_train_data, load_raw_test_data
@@ -32,4 +36,5 @@ df_train = convert_datetime(df_train, list_col_date)
 
 df_test = convert_numeric(df_test, list_col_num)
 df_test = convert_datetime(df_test, list_col_date)
+
 
