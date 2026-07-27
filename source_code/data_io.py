@@ -11,9 +11,12 @@ import pandas as pd
 import numpy as np
 import os
 from pathlib import Path
+import sys
 
-#path variables
-project_root = Path.cwd().parent
+#create a variable that gives the overall folder location
+project_root = Path(__file__).resolve().parent.parent
+#establish it as somewhere the executable can access other folders
+sys.path.append(str(project_root))
 
 raw_path = project_root / "data" / "raw"
 clean_path = project_root / "data" / "clean"
