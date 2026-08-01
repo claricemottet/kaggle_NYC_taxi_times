@@ -64,7 +64,7 @@ def calc_haversine_distance(df_):
 
 
 #cluster for pick up and drop off, different number of clusters
-#3 clusters for pick up and drop off, apply to training and test data
+#5 clusters for pick up and drop off so there is only one set of clusters, apply to training and test data
 
 #airport indicators?
 
