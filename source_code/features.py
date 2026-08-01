@@ -27,8 +27,32 @@ def convert_day_of_week(df_, col_):
 #calculate manhattan distance
 #also calculate the log of the manhattan distance
 
+def haversine_distance(lat1, lon1, lat2, lon2):
+    R = 6371  # earth radius in km
+    lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+    c = 2 * np.arcsin(np.sqrt(a))
+    return R * c
+
+def calc_manhattan_distance(df_):
+    df_["manhattan_distance"] = (
+        haversine_distance(df_["pickup_latitude"], df_["pickup_longitude"], df_["pickup_latitude"], df_["dropoff_longitude"])
+        + haversine_distance(df_["pickup_latitude"], df_["dropoff_longitude"], df_["dropoff_latitude"], df_["dropoff_longitude"])
+    )
+    df_["manhattan_distance_log"] = np.log1p(df_["manhattan_distance"])
+    return df_
+
 #calculate havershine distance
 #also calc log
+
+def calc_haversine_distance(df_):
+    df_["haversine_distance"] = haversine_distance(
+        df_["pickup_latitude"], df_["pickup_longitude"], df_["dropoff_latitude"], df_["dropoff_longitude"]
+    )
+    df_["haversine_distance_log"] = np.log1p(df_["haversine_distance"])
+    return df_
 
 #calculate bearing (direction of trip, cyclical)
 
@@ -42,6 +66,7 @@ def convert_day_of_week(df_, col_):
 
 #is a weekend indicator
 
+#same_pickup_dropoff_location
 
 
 
