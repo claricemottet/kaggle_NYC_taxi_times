@@ -15,14 +15,14 @@ def convert_hour(df_, col_):
 
 def convert_day_of_week(df_, col_):
     df_["dow_"+col_] = df_[col_].dt.dayofweek
-    df_["dow_sin"+col_] = np.sin(2*np.pi*df_["dow_"+col_]/7)
-    df_["dow_cos"+col_] = np.cos(2*np.pi*df_["dow_"+col_]/7)
+    df_["dow_sin_"+col_] = np.sin(2*np.pi*df_["dow_"+col_]/7)
+    df_["dow_cos_"+col_] = np.cos(2*np.pi*df_["dow_"+col_]/7)
     return df_
 
 def convert_month(df_, col_):
     df_["month_"+col_] = df_[col_].dt.month
-    df_["month_sin"+col_] = np.sin(2*np.pi*df_["month_"+col_]/12)
-    df_["month_cos"+col_] = np.cos(2*np.pi*df_["month_"+col_]/12)
+    df_["month_sin_"+col_] = np.sin(2*np.pi*df_["month_"+col_]/12)
+    df_["month_cos_"+col_] = np.cos(2*np.pi*df_["month_"+col_]/12)
     return df_
 
 
