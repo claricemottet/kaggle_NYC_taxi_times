@@ -41,4 +41,7 @@ df_train = convert_datetime(df_train, list_col_date)
 df_test = convert_numeric(df_test, list_col_num)
 df_test = convert_datetime(df_test, list_col_date)
 
+#data cleaning the below
+
+
 
