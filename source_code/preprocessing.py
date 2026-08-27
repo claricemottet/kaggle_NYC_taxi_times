@@ -36,9 +36,10 @@ def convert_datetime(df_, list_col_date):
 
 def clean_data(df_):
     """
-    -removes instances where passenger count is 60
-    -removes instances where trip duration is less than 1 min or more than 4 hours
-    -removes 
+    - removes instances where passenger count is 60
+    - removes instances where trip duration is less than 1 min or more than 4 hours
+    - remove instances where the pickup and dropoff location is the same but the trip_duration is more than 15 minutes
+    - remove instances where the longitude and latitude are outside of NYC and the suburb area
     """
 
     #removes instances where passenger count is 0
@@ -70,7 +71,8 @@ def clean_data(df_):
         df_['dropoff_latitude'].between(MIN_LATITUDE, MAX_LATITUDE)
         )
 
-    df_ = df_[mask_passenger_count & mask_duration & mask_same_loc & mask_range].copy()
+    df_ = df_[mask_passenger_count & mask_duration & mask_range].copy()
+    df_ = df_[~mask_same_loc].copy()
     df_.reset_index(drop = True, inplace = True)
 
     return df_

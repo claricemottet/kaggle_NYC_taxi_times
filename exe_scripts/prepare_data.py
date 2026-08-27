@@ -21,6 +21,7 @@ sys.path.append(str(project_root))
 #import source code
 from source_code.data_io import load_raw_train_data, load_raw_test_data
 from source_code.preprocessing import convert_numeric, convert_datetime
+from source_code.preprocessing import clean_data
 
 # from source_code.features.py 
 
@@ -43,5 +44,10 @@ df_test = convert_datetime(df_test, list_col_date)
 
 #data cleaning the below
 
+# - remove instances where passenger count is 0 (60 instances)
+# - remove instances where the trip_duration is less than 1 minute and more than 4 hours.
+# - remove instances where the pickup and dropoff location is the same but the trip_duration is more than 15 minutes
+# - remove instances where the longitude and latitude are outside of NYC and the suburb area
 
+df_train = clean_data(df_train)
 
