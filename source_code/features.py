@@ -33,6 +33,7 @@ def convert_month(df_, col_):
 #calculate manhattan distance
 #also calculate the log of the manhattan distance
 
+
 def haversine_distance(lat1, lon1, lat2, lon2):
     R = 6371  # earth radius in km
     lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
@@ -62,17 +63,63 @@ def calc_haversine_distance(df_):
 
 #calculate bearing (direction of trip, cyclical)
 
+#calculate bearing
+def calculate_bearing(lat1, lon1, lat2, lon2):
+    lat1 = np.radians(lat1)
+    lat2 = np.radians(lat2)
+    dlon = np.radians(lon2 - lon1)
 
-#cluster for pick up and drop off, different number of clusters
-#5 clusters for pick up and drop off so there is only one set of clusters, apply to training and test data
+    x = np.sin(dlon) * np.cos(lat2)
 
-#airport indicators?
+    y = (
+        np.cos(lat1) * np.sin(lat2)
+        - np.sin(lat1) * np.cos(lat2) * np.cos(dlon)
+    )
 
-#code the store indicator as a zero or a one
+    bearing = np.degrees(np.arctan2(x, y))
 
-#is a weekend indicator
+    # Convert from [-180, 180] to [0, 360]
+    bearing = (bearing + 360) % 360
 
-#same_pickup_dropoff_location
+    return bearing
 
 
+def calc_bearing(df_):
+    """
+    Using pickup and dropoff longitude and latitude, calculate bearing and cyclically
+    """
+    df_["bearing"] = calculate_bearing(
+        df_["pickup_latitude"],
+        df_["pickup_longitude"],
+        df_["dropoff_latitude"],
+        df_["dropoff_longitude"]
+    )
+
+    df_["bearing_sin"] = np.sin(
+        2 * np.pi * df_["bearing"] / 360
+    )
+
+    df_["bearing_cos"] = np.cos(
+        2 * np.pi * df_["bearing"] / 360
+    )
+    return df_
+
+#createa function of indicator variables
+
+def calc_indicator(df_):
+
+    # store indicator
+    df_['store_and_fwd_flag_ind'] = 0
+    df_.loc[df_['store_and_fwd_flag']!='N', 'store_and_fwd_flag_ind'] = 1
+
+    # weekend indicator
+    df_['is_weekend'] = 0
+    df_.loc[df_['dow_pickup_datetime'].isin([5,6]), 'is_weekend'] = 1
+
+    # same pickup and dropoff location indicator
+    df_['is_same_loc'] = 0
+    df_.loc[(df_['pickup_longitude']==df_['dropoff_longitude']) &
+                (df_['pickup_latitude']==df_['dropoff_latitude']), 'is_same_loc'] = 1
+
+    return df_
 

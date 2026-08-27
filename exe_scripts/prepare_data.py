@@ -23,7 +23,10 @@ from source_code.data_io import load_raw_train_data, load_raw_test_data
 from source_code.preprocessing import convert_numeric, convert_datetime
 from source_code.preprocessing import clean_data
 
-# from source_code.features.py 
+from source_code.features import convert_hour, convert_day_of_week, convert_month
+from source_code.features import calc_haversine_distance, calc_manhattan_distance
+from source_code.features import calc_bearing
+from source_code.features import calc_indicator
 
 #import in train and test
 df_train = load_raw_train_data()
@@ -50,4 +53,33 @@ df_test = convert_datetime(df_test, list_col_date)
 # - remove instances where the longitude and latitude are outside of NYC and the suburb area
 
 df_train = clean_data(df_train)
+
+#feature creation
+
+#cyclical time frame variables
+df_train = convert_hour(df_train, 'pickup_datetime')
+df_test = convert_hour(df_test, 'pickup_datetime')
+
+df_train = convert_day_of_week(df_train, 'pickup_datetime')
+df_test = convert_day_of_week(df_test, 'pickup_datetime')
+
+df_train = convert_month(df_train, 'pickup_datetime')
+df_test = convert_month(df_test, 'pickup_datetime')
+
+#distance variables
+
+df_train = calc_haversine_distance(df_train)
+df_test = calc_haversine_distance(df_test)
+
+df_train = calc_manhattan_distance(df_train)
+df_test = calc_manhattan_distance(df_test)
+
+df_train = calc_bearing(df_train)
+df_test = calc_bearing(df_test)
+
+#indicator variables
+df_train = calc_indicator(df_train)
+df_test = calc_indicator(df_test)
+
+
 
